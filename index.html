@@ -271,6 +271,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EPwm1Regs.TBCTL.bit.HSPCLKDIV &#x3D;0;&#x2F;&#x2F;1 TB_DIV1;</span><br><span class="line">EPwm1Regs.TBCTL.bit.CLKDIV &#x3D; 1;&#x2F;&#x2F;2  75M</span><br><span class="line">别人都设置为这样的值，出来就是正确的频率…</span><br></pre></td></tr></table></figure>
 <p>TBCLK=SYSCLKOUT/(HSPCLKDIV×CLKDIV)，Matlab的HSPCLKDIV和CLKDIV我都设置成1，也就是不分频，那么TBCLK的频率才是150MHz，这样增减模式下Tpwm=2<em>TBPRD</em>TBCLK，TBPRD的值为5859，但是都设置不分频出来的示波器PWM频率显示是25.6kHz，不知道为啥…观察一个PWM的周期值是正确的，不知道是不是示波器没设置好；</p>
 <p>将CCS自己的编程的代码进行了整理，编程不写注释，就和拉屎不擦屁股是一样的！写代码一定要写注释！目前自己写的代码还没有编译成功，还要继续努力修改代码……</p>
+<h2 id="一些感悟🤯"><a href="#一些感悟🤯" class="headerlink" title="一些感悟🤯"></a>一些感悟🤯</h2><p>今天上午我另一个教研室老师把一个师兄骂惨了，腾讯会议汇报啥都没做，说叫他退学，腾讯会议汇报啥都没做，好像不是一次两次，老师想把他辞了，叫那个师兄申请休学或退学，不要浪费大好青春，喜欢打游戏就去做游戏主播挣钱。所以研究生真的不能摸鱼啊，不然导师就给辞退了！</p>
 <h2 id="我的书单📚"><a href="#我的书单📚" class="headerlink" title="我的书单📚"></a>我的书单📚</h2><p>突然发现自己好像读了不少书，虽然感觉没啥用，包括专业书已经差不多快一百多本了，每读完一本书我都会记录下读过的书籍封面并且保存自己的读书笔记。</p>
 <p>这是自己的读过的书籍整理：<a target="_blank" rel="noopener" href="https://reinvented-star-45f.notion.site/6ec651c06b2a4e388acd240a55a9ccba?v=c56fde318a834f93ad18770a10a2a3b7">我的读书摘记</a></p>
 <p>这是我收集的课外书籍电子书：<a target="_blank" rel="noopener" href="https://reinvented-star-45f.notion.site/63d59fb3e36a4f2ebdc39fb2b8e217da?v=34fa3d60453e4702954b4cb5c42d525e">一些课外电子书资源</a></p>
