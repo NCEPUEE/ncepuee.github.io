@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ncepuee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ncepuee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="每周音乐🎵  运动歌单🏃‍适合跑步运动的歌单（Music）   学习进展✍星期一将CCS的SVPWM的代码成功运行，能看到脉冲波形，但是可能相位还是有点问题，所以暂时就没有继续改代码，代码感觉没什么问题，相位还不知道如何设置； 星期二将Clarke变换的理论和仿真进行了整理： 等幅值Clarke变换和等功率Clarke变换 将SVPWM的理论进行了重新回顾： 空间矢量的概念和SVPWM的工作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20210816-0822周报">
@@ -258,7 +258,7 @@
 <p>分析了为什么两种仿真的T0、T1、T2的波形不一致，找出了原因，并进行了总结，将两种生成SVPWM的脉冲的方法进行了汇总，扇区判断由于CCS编程使用的是N=4C+2B+A，所以Simulink的仿真中使用此方法来判断扇区。</p>
 </blockquote>
 <p>查找阅读基于Simulink的SVPWM自动代码生成的文献：</p>
-<p><img src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4tmloxej60lc0fzn2502.jpg" alt="image"></p>
+<p><img data-src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4tmloxej60lc0fzn2502.jpg" alt="image"></p>
 <h3 id="星期三"><a href="#星期三" class="headerlink" title="星期三"></a>星期三</h3><p>需要完成c2833x模块的参数设置，ePWMA和ePWMB模块的设置我的思路是输入占空比，由于是用时钟周期值，所以要将占空比转化成数字，求出TBPRD=1/12800/(2*(1/150000000))=5859，将三相的占空比乘以这个值就可以得到比较寄存器的值，将其输入作为比较寄存器CMPA和CMPB的值；三相电路所以用三个ePWM模块ePWM1、ePWM2、ePWM3，每个模块的ePWMA、ePWMB对应的是上下桥臂的脉冲。</p>
 <blockquote>
 <p>由于是向上向下计数，比较寄存器的值由归一化的占空比输入，乘以TBPRD的值，得到数值，之后可以进行比较，输入为CMPA和CMPB的值。</p>
@@ -267,24 +267,24 @@
 <p>ePWMB设置时钟周期，通过输入确定CMPB的值，当时基计数器等于零时，置位，当向上计数时，时基计数器等于比较寄存器CMPB的值时，将ePWMB进行翻转，当向下计数时，时基计数器等于比较寄存器CMPB的值时，将ePWMB置位。</p>
 <p>将ePWMB模块设置死区时间，上升沿和下降沿都设置3μs的死区时间，数字为475（参考相关文献设置）。</p>
 <p>波形发现很奇怪，为什么占空比全是一样的……？我觉得自己的分析没有问题…</p>
-<p><img src="https://tvax3.sinaimg.cn/large/0084Tjdoly1gtm4ul5ri4j61jk15ob2902.jpg" alt="image"></p>
+<p><img data-src="https://tvax3.sinaimg.cn/large/0084Tjdoly1gtm4ul5ri4j61jk15ob2902.jpg" alt="image"></p>
 <p>重新理解：如果用切换时刻Ta、Tb、Tc作为比较寄存器的输入值，那么我的目的是为了让硬件输出相同的占空比罢了，我仿真的Ta、Tb、Tc的切换时刻，最后要和一个三角波进行比较：</p>
-<p><img src="https://tvax2.sinaimg.cn/large/0084Tjdoly1gtm4vyk7wtj615x0mgtby02.jpg" alt="image"></p>
+<p><img data-src="https://tvax2.sinaimg.cn/large/0084Tjdoly1gtm4vyk7wtj615x0mgtby02.jpg" alt="image"></p>
 <p>当我的时刻比Ta、Tb、Tc大时，就将其置高电平，否则置低电平，最后得到的是0101的脉冲波形，所以我们要在F28335中实现同样的脉冲波形的话，那么如果用向上向下计数模式，和这个比较其实是一样的意思，我们知道向上向下计数，计完之后就是一个脉冲周期Tpwm（Ts）</p>
 <p>在仿真中的比较是x=y的比较，当Ts/2时，y为Ts/2，当比Ta大时，置高电平，当比Tb大时，置高电平，当比Tc大时，置高电平。比三者小时，就是低电平；</p>
 <p>但是在F28335中的ePWM模块，设置为向上向下计数时，计数计完之后，对应的时长为Tpwm（Ts）所以和仿真对比，x的变化是一样的，但是y不一样，所以同样的时刻对应的值不一样，所以将Ta、Tb、Tc输入到ePWM模块中时需要将其除以Ts/2之后再乘以TBPRD，将三个值分别作为CMPA和CMPB寄存器的值，CMPA寄存器作为上桥臂的比较值，CMPB寄存器作为下桥臂的比较值，ePWMA初始状态为低电平（时基计数器为0时），当时基计数器大于CMPA寄存器的值时，ePWMA置高电平，当时基计数器的值小于CMPA寄存器的值时，ePWMA清零；ePWMB初始状态为高电平（时基计数器为0时），当时基计数器大于CMPB寄存器的值时，置低电平，当时基计数器小于CMPB寄存器的值时，置高电平。</p>
-<p><img src="https://tva3.sinaimg.cn/large/0084Tjdoly1gtm4wflnirj61jk0kq7r202.jpg" alt="image"></p>
+<p><img data-src="https://tva3.sinaimg.cn/large/0084Tjdoly1gtm4wflnirj61jk0kq7r202.jpg" alt="image"></p>
 <p>然后运行程序也没有报错，但是就是出来波形感觉不对因为占空比好像都一样……自己感觉分析没有问题。查看了文献也是这样操作。</p>
 <h3 id="星期四"><a href="#星期四" class="headerlink" title="星期四"></a>星期四</h3><p>和牛老师进行了交流，根据牛老师的指导，换了一个思路，先做一个SPWM的Simulink模型，然后看能不能出波形：</p>
 <p>首先搭建了一个SPWM的模型，输入三相对称的交流余弦波，由于要与载波进行比较，所以设置正弦波发生器幅值为1，然后将其加1，得到在0~1变化的三相对称的余弦波形；</p>
 <p>为了和向上向下的载波进行比较，载波设置的频率为12.8kHz，系统频率设置为150MHz，所以TBPRD=5859，要和这样的载波比较的话，就需要将余弦波的幅值在(0,5859)变化，所以在上述的基础上乘以一个系数5859，这样就可以实现比较了。</p>
 <p>然后设置ePWM模块：</p>
-<p><img src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4y5hdo1j60k80kv7bw02.jpg" alt="image"></p>
+<p><img data-src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4y5hdo1j60k80kv7bw02.jpg" alt="image"></p>
 <p>ePWMA和ePWMB中已经设置了更新比较寄存器的值，在Compare Value Reload Condition中当时基计数器等于零的时候装载比较寄存器的值。所以后面就可以不用设置中断了~</p>
-<p><img src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4ytk7zqj60k80kvn6v02.jpg" alt="image"></p>
-<p><img src="https://tva4.sinaimg.cn/large/0084Tjdoly1gtm4z9357bj60k80kvk0z02.jpg" alt="image"></p>
+<p><img data-src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm4ytk7zqj60k80kvn6v02.jpg" alt="image"></p>
+<p><img data-src="https://tva4.sinaimg.cn/large/0084Tjdoly1gtm4z9357bj60k80kvk0z02.jpg" alt="image"></p>
 <p>我发现如果同时输入CMPA和CMPB为相同值，如果ePWMB也设置Input，最后输出的PWM的频率会变成两倍，我设置的载波频率为12.8kHz，但是如果ePWMB的CMPB也设置input，则频率就变成了25.6kHz，也就是设置的频率的两倍。所以不要设置CMPB，设置一个比较寄存器的输入值即可！用CMPA就不用CMPB比较寄存器。<strong>（星期四下午更新：好像设置了还是不行还是一样的频率🤦‍）</strong></p>
-<p><img src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm5073e5cj61jk15oe8102.jpg" alt="image"></p>
+<p><img data-src="https://tva2.sinaimg.cn/large/0084Tjdoly1gtm5073e5cj61jk15oe8102.jpg" alt="image"></p>
 <p>之后是设置死区模块，数字为950时对应的死区时间大致是6μs，使能ePWMA和ePWMB的死区模块，之后设置死区的模式，有AHC、ALC、AH、AL，对应的输出波形如上图右边所示。RED和FED分别对应的是波形的上升沿和下降沿，以此为基础进行延时。其他的几个模块可以不用。</p>
 <p>最后点击<code>Ctrl+B</code>即可编译程序并加载到F28335，板子上面的1对应的ePWM1的ePWMA模块，2对应ePWM1的ePWMB模块。将杜邦线接到上面，在示波器上进行显示。</p>
 <h3 id="星期五"><a href="#星期五" class="headerlink" title="星期五"></a>星期五</h3><p>终于实现了Matlab的仿真！太赞了，感谢牛老师的帮助！</p>
@@ -301,9 +301,9 @@
 <p>这是我收集的课外书籍电子书：<a target="_blank" rel="noopener" href="https://reinvented-star-45f.notion.site/63d59fb3e36a4f2ebdc39fb2b8e217da?v=34fa3d60453e4702954b4cb5c42d525e">一些课外电子书资源</a></p>
 <p>最近读完了《被讨厌的勇气》，这是《被讨厌的勇气》的读书笔记：<a target="_blank" rel="noopener" href="https://reinvented-star-45f.notion.site/da99268613ce41ef873e1987a55cb729">被讨厌的勇气读书摘记</a></p>
 <p>然后开始读《认识经济》</p>
-<p><img src="https://tva4.sinaimg.cn/large/0084Tjdoly1gtm55mogsej60rm13jtzm02.jpg" alt="迪恩·卡尔兰【认识经济】"></p>
+<p><img data-src="https://tva4.sinaimg.cn/large/0084Tjdoly1gtm55mogsej60rm13jtzm02.jpg" alt="迪恩·卡尔兰【认识经济】"></p>
 <p>我把我看过的课外书（不包括自己的专业课的书）的封面进行了收集：</p>
-<p><img src="https://tva1.sinaimg.cn/large/0084Tjdoly1gthi209e6jj617p0pq7wh02.jpg" alt="我的书单（截至20210822）"></p>
+<p><img data-src="https://tva1.sinaimg.cn/large/0084Tjdoly1gthi209e6jj617p0pq7wh02.jpg" alt="我的书单（截至20210822）"></p>
 <p>坚持读书，提升自己的认知，保持内心的童真，做一个不世俗的人！</p>
 <h2 id="休息娱乐✌"><a href="#休息娱乐✌" class="headerlink" title="休息娱乐✌"></a>休息娱乐✌</h2><p>最近看到一个非常棒的视频，1999年宝莲灯的动画片，起因是我听张信哲的《爱就一个字》，竟然发现这是动画片宝莲灯的主题曲；再去B站一搜竟然发现以前的宝莲灯配音阵容竟然有这么多名人，二郎神是姜文配音…孙悟空是陈佩斯配音…↓↓</p>
 <iframe src="//player.bilibili.com/player.html?aid=969960654&bvid=BV11p4y1r7Hi&cid=244030022&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
@@ -369,12 +369,17 @@
   </span>
   <span class="author" itemprop="copyrightHolder">菜菜的黄</span>
 </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-601e7b328682665a" async="async"></script>
+  </div>
 
     </div>
   </footer>
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
 
   
