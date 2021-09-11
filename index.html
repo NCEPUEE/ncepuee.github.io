@@ -132,7 +132,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,108 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://ncepuee.github.io/2021/09/12/20210906-0912/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="菜菜的黄">
+      <meta itemprop="description" content="记录科研生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="School boy">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/09/12/20210906-0912/" class="post-title-link" itemprop="url">20210906-0912周报</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-09-12 08:00:00" itemprop="dateCreated datePublished" datetime="2021-09-12T08:00:00+08:00">2021-09-12</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="每周音乐🎵"><a href="#每周音乐🎵" class="headerlink" title="每周音乐🎵"></a>每周音乐🎵</h2><iframe frameborder="0" height="80" style="width:100%;max-width:1080px;overflow:hidden;background:transparent;" src="//music.163.com/outchain/player?type=2&id=149222&auto=1&height=66"></iframe>
+
+<h2 id="运动歌单🏃‍"><a href="#运动歌单🏃‍" class="headerlink" title="运动歌单🏃‍"></a>运动歌单🏃‍</h2><p>适合跑步运动的歌单（Music）</p>
+<iframe allow="autoplay *; encrypted-media *; fullscreen *" frameborder="0" height="450" style="width:100%;max-width:1080px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/cn/playlist/running-fitness-sports/pl.u-Ldbqel5u27kmjlm"></iframe>
+
+<h2 id="学习进展✍"><a href="#学习进展✍" class="headerlink" title="学习进展✍"></a>学习进展✍</h2><h3 id="星期一"><a href="#星期一" class="headerlink" title="星期一"></a>星期一</h3><p>撰写《关于CCS编程生成PWM的一些总结》第一部分，如何新建并初始化一个CCS工程。</p>
+<h3 id="星期二"><a href="#星期二" class="headerlink" title="星期二"></a>星期二</h3><p>重新理解了GPIO的输出控制和输入控制的功能</p>
+<p>我们知道F28335有176根引脚，其中88个引脚是GPIO的引脚，GPIO称为通用数字量输入/输出接口，88个引脚多数都是功能复用的，可以将GPIO配置为输入模式和输出模式，那么详细讲述GPIO是如何控制输入和输出的：</p>
+<ul>
+<li>GPIO的输出控制</li>
+</ul>
+<p>根据下图笔记，由于ePWM的6个模块复用的GPIO口为GPIO0-GPIO11，对应属于是A组（GPIO0-GPIO31），根据GPIO的模块图，GPIO的输入输出控制是通过GPxDIR方向寄存器控制（x表示A，B，C），当GPxDIR寄存器值为1或2或3的时候（其实就是高电平），逻辑值表示输入是1，经过非之后再或，输出控制为0，而GPIO的输出控制器是低电平有效，此时GPIO为输出功能。通过GPxPUD寄存器控制GPIO的上拉和下拉，GPIO初始状态上拉，就是让GPIO默认初始状态接高电平，当开关闭合GPIO为低电平。当GPIO为输出功能时，通过GPXMUX1/2多路复用寄存器控制输出的功能，由于ePWM模块使用的GPIO属于A组的0-11管脚，所以由GPAMUX1多路复用寄存器控制，当GPAMUX1=00时，GPIO作为普通IO口输出，当GPAMUX1=01/10/11时，GPIO输出的是相应外设的信号，ePWM一般对应的是GPAMUX1=01时的外设输出。</p>
+<p><img data-src="https://tvax2.sinaimg.cn/large/0084Tjdoly1gubly7zb9oj619h18zhdt02.jpg" alt="GPIO的输出控制解析图"></p>
+<ul>
+<li>GPIO的输入控制</li>
+</ul>
+<p>根据下图的笔记，当GPxDIR方向选择寄存器值为00时，经过一个非再或之后，逻辑值为1，由于GPIO输入输出控制器是低电平有效，则此时GPIO口作为输入模式，输入分为同步和异步，GPxCTRL寄存器用来控制量化过程中的采样周期，GPxQSEL1/2寄存器用来控制输入的方式，GPxSEL1/2=00为同步信号直接输入，GPxSEL1/2=01是将同步信号进行三个周期采样一次后再输入，GPxSEL1/2=10是将同步信号进行6个周期采样一次后再输入，GPxSEL1/2=11是将异步信号输入，输入信号传入数据寄存器。这就是GPIO的输入过程。</p>
+<p><img data-src="https://tva4.sinaimg.cn/large/0084Tjdoly1gubly7zb9oj619h18zhdt02.jpg" alt="GPIO的输入控制解析图"></p>
+<h3 id="星期三"><a href="#星期三" class="headerlink" title="星期三"></a>星期三</h3><p>和高鑫波探讨了如何使用ePWM的六个模块输出PWM的波形，ePWM用456个模块的波形输出不了，我就把自己的工程调试了以下，首先我们需要编写六个ePWM模块的初始化函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">interrupt <span class="keyword">void</span> <span class="title">epwm1_isr</span><span class="params">(<span class="keyword">void</span>)</span></span>;<span class="comment">//声明EPWM1中断服务程序</span></span><br><span class="line"><span class="comment">//interrupt void epwm2_isr(void);//声明EPWM2中断服务程序</span></span><br><span class="line"><span class="comment">//interrupt void epwm3_isr(void);//声明EPWM3中断服务程序</span></span><br><span class="line"><span class="comment">//interrupt void epwm4_isr(void);//声明EPWM4中断服务程序</span></span><br><span class="line"><span class="comment">//interrupt void epwm5_isr(void);//声明EPWM5中断服务程序</span></span><br><span class="line"><span class="comment">//interrupt void epwm6_isr(void);//声明EPWM6中断服务程序</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">InitGpio();<span class="comment">//初始化GPIO，使用了DSP2833x_Gpio.c文件</span></span><br><span class="line">InitEPwm1Gpio();<span class="comment">//将ePWM1模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br><span class="line">InitEPwm2Gpio();<span class="comment">//将ePWM2模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br><span class="line">InitEPwm3Gpio();<span class="comment">//将ePWM3模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br><span class="line">InitEPwm4Gpio();<span class="comment">//将ePWM4模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br><span class="line">InitEPwm5Gpio();<span class="comment">//将ePWM5模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br><span class="line">InitEPwm6Gpio();<span class="comment">//将ePWM6模块复用GPIO管脚，使用了DSP2833x_EPwm.c文件</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PieVectTable.EPWM1_INT = &amp;epwm1_isr;<span class="comment">//重新映射使用的中断向量，对应的地址P134页</span></span><br><span class="line"><span class="comment">//   PieVectTable.EPWM2_INT = &amp;epwm2_isr;</span></span><br><span class="line"><span class="comment">//   PieVectTable.EPWM3_INT = &amp;epwm3_isr;</span></span><br><span class="line"><span class="comment">//   PieVectTable.EPWM4_INT = &amp;epwm4_isr;</span></span><br><span class="line"><span class="comment">//   PieVectTable.EPWM5_INT = &amp;epwm5_isr;</span></span><br><span class="line"><span class="comment">//   PieVectTable.EPWM6_INT = &amp;epwm6_isr;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PieCtrlRegs.PIEIER3.bit.INTx1 = <span class="number">1</span>;<span class="comment">//允许PIE级中断INT3.1，即EPWM1中断</span></span><br><span class="line"><span class="comment">//   PieCtrlRegs.PIEIER3.bit.INTx2 = 1;//允许PIE级中断INT3.2，即EPWM2中断</span></span><br><span class="line"><span class="comment">//   PieCtrlRegs.PIEIER3.bit.INTx3 = 1;//允许PIE级中断INT3.3，即EPWM3中断</span></span><br><span class="line"><span class="comment">//   PieCtrlRegs.PIEIER3.bit.INTx4 = 1;//允许PIE级中断INT3.1，即EPWM4中断</span></span><br><span class="line"><span class="comment">//   PieCtrlRegs.PIEIER3.bit.INTx5 = 1;//允许PIE级中断INT3.2，即EPWM5中断</span></span><br><span class="line"><span class="comment">//   PieCtrlRegs.PIEIER3.bit.INTx6 = 1;//允许PIE级中断INT3.3，即EPWM6中断</span></span><br></pre></td></tr></table></figure>
+<p>如果同时使用6个ePWM的中断，出来的波形不正确，试了下只用ePWM456模块来输出PWM的波形，发现输出来的波形是正确的。</p>
+<p>尝试在一个中断中，ePWM4、5、6模块中输出脉冲波形，只用ePWM1模块的中断来输出六个模块的波形，在初始化文件中设置了六个ePWM模块的动作，但是关闭了23456的中断。</p>
+<h3 id="星期四"><a href="#星期四" class="headerlink" title="星期四"></a>星期四</h3><p>上现代电力电子课程，继续撰写如何使用《关于CCS编程生成PWM的一些总结》</p>
+<h3 id="星期五"><a href="#星期五" class="headerlink" title="星期五"></a>星期五</h3><p>撰写《关于CCS编程生成PWM的一些总结》完毕！</p>
+<p>今天是教师节日，越长大越要懂得感恩，感恩遇见的每一位老师，人生某个阶段能有幸遇见某个老师是一种巧合，感谢每一位老师的辛苦付出，所有老师努力付出造就了今天的我！</p>
+<hr>
+<p>很棒🙂，周五教师节晚上汇报一整晚，到10:30PM</p>
+<h3 id="星期六"><a href="#星期六" class="headerlink" title="星期六"></a>星期六</h3><p>将昨天晚上和老师汇报的内容中一些错误进行了修改，将一些总结加入一些图片，方便以后的同学查看。将其整理至笔记软件。</p>
+<h2 id="一些感悟🤡"><a href="#一些感悟🤡" class="headerlink" title="一些感悟🤡"></a>一些感悟🤡</h2><p>最近一周都在总结《关于CCS编程生成PWM的一些总结》，本以为自己应该每个流程，每行代码都熟悉了，但是当撰写总结的时候，发现还是有很多地方不明白，比如GPIO的输入输出控制，仔细看了视频之后才真正了解了GPIO的一些寄存器的使用…</p>
+<p>老天爷一周真的好快啊，不知不觉一周就没了🤦‍</p>
+<h2 id="哲思学意📚"><a href="#哲思学意📚" class="headerlink" title="哲思学意📚"></a>哲思学意📚</h2><p>人生就是一列开往坟墓的列车，路途上会有很多站，很难有人可以自始至终陪着走完。当陪你的人要下车时，即使不舍也该心存感激，然后挥手道别。——千与千寻</p>
+<p>生活不可能像你想象得那么好，但也不会像你想象得那么糟。 我觉得人的脆弱和坚强都超乎自己的想象。 有时，我可能脆弱得一句话就泪流满面；有时，也发现自己咬着牙走了很长的路。——莫泊桑 《一生》</p>
+<p>生活不可能像你想象得那么好，但也不会像你想象得那么糟。 我觉得人的脆弱和坚强都超乎自己的想象。 有时，我可能脆弱得一句话就泪流满面；有时，也发现自己咬着牙走了很长的路。——莫泊桑 《一生》</p>
+<p>每一次告别，最好用力一点。多说一句，可能是最后一句。多看一眼，可能是最后一眼。——韩寒《后会无期》</p>
+<p>我们花了两年学会说话，却要花上六十年来学会闭嘴。大多数时候，我们说得越多，彼此的距离却越远，矛盾也越多。在沟通中，大多数人总是急于表达自己，一吐为快，却一点也不懂对方。两年学说话，一生学闭嘴。懂与不懂，不多说。心乱心静，慢慢说。若真没话，就别说。——海明威</p>
+<h2 id="休息娱乐😊"><a href="#休息娱乐😊" class="headerlink" title="休息娱乐😊"></a>休息娱乐😊</h2><p>发现朋友圈竟然可以有动态背景图！就是可以发视频放朋友圈封面</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
